@@ -1,0 +1,104 @@
+{% extends 'base.html' %} {% block title %} List Persons {% endblock %}
+ {% block content %}
+<div class="container mt-5">
+  <h3 class="text-center mb-4 text-light">Lista de Pessoas</h3>
+
+  <!-- Formulário de pesquisa -->
+  <form class="mb-5 w-50 mx-auto">
+    <div class="input-group text-center">
+      <input
+        type="text"
+        class="form-control form-control-sm"
+        placeholder="Search..."
+        name="q"
+      />
+      <div class="input-group-append">
+        <button class="btn btn-info btn-sm" type="submit">Search</button>
+      </div>
+    </div>
+  </form>
+  <h5 class="text-center mb-4 text-light">Total Filtrado: {{person_count}}</h5>
+  <!-- Cards de pessoas -->
+  <div class="row">
+    {% for person in persons %}
+    <div class="col-md-3 mb-2">
+      <!-- Adicionado mb-3 para margem inferior -->
+      <div class="card person-card bg-dark text-light">
+        <!-- Alterado para bg-dark e text-light -->
+        <div class="card-body text-center">
+          <span style="cursor:pointer;" onclick="submitForm('{{ person.id }}')">
+            <h5
+              class="card-title text-info"
+              data-toggle="collapse"
+              data-target="#collapse{{ person.id }}"
+              aria-expanded="false"
+              aria-controls="collapse{{ person.id }}"
+            >
+              {{ person.name|capfirst }}
+            </h5>
+            <span
+            class="card-text text-warning small"
+            data-toggle="collapse"
+            data-target="#collapse{{ person.id }}"
+            aria-expanded="false"
+            aria-controls="collapse{{ person.id }}"
+        >
+            {{ person.person_type|capfirst }}:
+        </span>
+            <span
+              class="card-text text-light small"
+              data-toggle="collapse"
+              data-target="#collapse{{ person.id }}"
+              aria-expanded="false"
+              aria-controls="collapse{{ person.id }}"
+            >
+
+              {% for advertisement in person.advertisement_set.all %}
+         {{ advertisement.address.city|capfirst }} - {{ advertisement.address.neighborhood|capfirst }} |
+          {% endfor %}
+            </span>
+          </span>
+          <div class="collapse" id="collapse{{ person.id }}">
+            <p class="card-text small">Telefone: 
+            {% for phone in person.phones.all %}
+              {{ phone.telefone }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+          </p>
+          <!-- Mostrar números de celular -->
+          <p class="card-text small">Celular: 
+            {% for mobile in person.mobiles.all %}
+              {{ mobile.celular }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+          </p>
+
+            <p class="card-text small">Criado: {{ person.created_at }}</p>
+            <p class="card-text small">
+              Número de Anúncios: {{ person.advertisement_set.count }}
+            </p>
+            <p class="card-text small">
+              Fechou negócio: {{ person.number_of_sales }} vezes
+            </p>
+            <form method="post" action="{% url 'delete_person' person.id %}">
+              {% csrf_token %}
+              <button
+                type="submit"
+                class="btn btn-danger btn-sm"
+                onclick="return confirm('Are you sure you want to delete {{ person.name }}?')"
+              >
+                Delete
+              </button>
+              <a
+                href="{% url 'person_advertisements' person.id %}"
+                class="btn btn-warning btn-sm"
+              >
+                Detalhes/Anúncios
+              </a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

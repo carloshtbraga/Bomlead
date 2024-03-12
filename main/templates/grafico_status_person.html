@@ -1,0 +1,31 @@
+<!-- grafico_status_person.html -->
+{% extends 'base.html' %}
+{% block title %}Gráfico de Status de Pessoa{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4 text-light">Gráfico de Status de Pessoa</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div id="grafico_status_person"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script>
+        var labels = {{ status_labels|safe }};
+        var counts = {{ counts|safe }};
+
+        var data = [{
+            values: counts,
+            labels: labels,
+            type: 'pie'
+        }];
+
+        var layout = {
+            title: 'Distribuição de Pessoas por Status'
+        };
+
+        Plotly.newPlot('grafico_status_person', data, layout);
+    </script>
+</div>
+{% endblock %}

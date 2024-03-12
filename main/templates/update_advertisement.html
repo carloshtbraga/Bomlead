@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %} Update Advertisement {% endblock %} 
+{% block content %}
+<div class="container text-light">
+    <form method="post" class="w-25 mx-auto">
+        {% csrf_token %}
+        <h3 class="text-center mb-4 text-light">Atualizar Anúncio</h3>
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-info btn-block" onclick="return confirm('Are you sure you want to upgrade this advertisement?')">Update</button>
+    </form>
+
+    <form method="post" class="w-25 mx-auto" action="{% url 'delete_advertisement' advertisement.id %}" class="delete-btn">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger btn-block" onclick="return confirm('Are you sure you want to delete this advertisement?')">Delete</button>
+    </form>
+</div>
+{% endblock %}

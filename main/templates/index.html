@@ -1,0 +1,103 @@
+{% extends 'base.html' %} 
+{% block title %} Index {% endblock %} 
+{% block content %}
+<div class="container text-light">
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-8 text-center">
+      <!-- Imagem no topo -->
+      <img
+        src="https://www.bomlead.com/assets/img/logo-leadstock.png"
+        alt="LeadStock Logo"
+        class="img-fluid mb-4"
+      />
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <!-- Div para renderizar o gráfico -->
+      <div id="grafico"></div>
+    </div>
+  </div>
+  <div class="row justify-content-center">
+  {% if user.is_authenticated %}
+  <p>Você está logado como {{ user.first_name }} ({{ user.email }})!</p>
+{% else %}
+  <p>Você não está logado!</p>
+{% endif %}
+</div>
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-8 text-center">
+      <div class="card bg-secondary text-light">
+        <div class="card-body bg-dark text-center">
+          <div class="row justify-content-center">
+            <div class="col-md-6 text-center">
+              <p class="text-center mx-auto">Total de vendas: {{ total_sales }}</p>
+              <p>Total de arquitetos: {{ total_arquiteto }}</p>
+              <p>Total de pessoas: {{ total_person }}</p>
+              <p>Total de anúncios: {{ total_advertisements }}</p>
+              <p>Total de corretores: {{ total_corretor }}</p>
+            </div>
+            <div class="col-md-6">
+                <p>Total de xxxxxxxxxxxx</p>
+                <p>Total de xxxxxxxxxxxx</p>
+                <p>Total de xxxxxxxxxxxx</p>
+                <p>Total de xxxxxxxxxxxx</p>
+                <p>Total de xxxxxxxxxxxx</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+  <div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+      <!-- Link para o gráfico de distribuição de tipos de pessoa -->
+      <a
+        href="{% url 'grafico_person_type' %}"
+        class="btn btn-info btn-block mt-4"
+        >Ver Gráfico de Distribuição de Tipos de Pessoa</a
+      >
+    </div>
+  </div>
+
+
+
+  <div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+      <!-- Link para o gráfico de status de pessoa -->
+      <a
+        href="{% url 'grafico_status_person' %}"
+        class="btn btn-info btn-block mt-4"
+        >Ver Gráfico de Status de Pessoa</a
+      >
+    </div>
+  </div>
+
+  <div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+      <!-- Link para o gráfico de origem dos anúncios -->
+      <a
+        href="{% url 'grafico_advertisement_from_where' %}"
+        class="btn btn-info btn-block mt-4"
+        >Ver Gráfico de Origem dos Anúncios</a
+      >
+    </div>
+  </div>
+
+
+  <div class="row justify-content-center mt-4 mb-3">
+    <div class="col-md-8">
+      <!-- Link para o gráfico de origem dos anúncios -->
+      <a
+        href="{% url 'all_company_sales' %}"
+        class="btn btn-info btn-block mt-4"
+        >Ver Todas as Vendas</a
+      >
+    </div>
+
+
+
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ person.name }} Details
+{% endblock %}
+
+{% block content %}
+    <div class="container w-75 bg-secondary">
+        <div class="container w-50 bg-secondary">
+        <!-- Card de detalhes da pessoa (colapsável) -->
+        <div class="card details-card bg-secondary border-0 ">
+            <div class="" id="personDetails">
+                <h5 class="mb-0">
+                    <button class="btn btn-info btn-lg btn-block text-center custom-btn" type="button" data-toggle="collapse" data-target="#personCollapse" aria-expanded="true" aria-controls="personCollapse">
+                        Editar Pessoa
+                    </button>
+                </h5>
+            </div>
+        </div>
+            <div id="personCollapse" class="collapse" aria-labelledby="personDetails">
+                <div class="card-body">
+                    <!-- Formulário para atualizar a pessoa -->
+                    <form method="post" class="mb-4 text-light">
+                        {% csrf_token %}
+                        {{ person_form.as_p }}
+                        {{ phone_form.as_p }}
+                        {{mobile_form.as_p}}  <!-- Adicione este formulário -->
+                        <button type="submit" class="btn btn-info btn-block" onclick="return confirm('Are you sure you want to update this person?')">Salvar</button>
+                    </form>
+                    
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção de anúncios -->
+        <h2 class="text-center mt-5 mb-5 text-light">Anúncios:</h2>
+        <div class="row">
+            {% for advertisement in advertisements %}
+            <div class="col-md-6 mb-3">
+                <div class="card bg-dark text-light custom-card">
+                    <div class="card-body">
+                        <h5 class="card-title" style="height: 3rem; overflow: hidden;">{{ advertisement.title }}</h5>
+                        <p class="card-text custom-card-text">Site: {{ advertisement.site }}</p>
+                        <p class="card-text custom-card-text">Fonte: {{ advertisement.fonte }}</p>
+                        <p class="card-text custom-card-text">Preço: {{ advertisement.price }}</p>
+                        <p class="card-text custom-card-text">Endereço: {{ advertisement.address.city|capfirst }}, {{ advertisement.address.neighborhood|capfirst }}, {{ advertisement.address.state }}</p>
+                        <a href="{% url 'update_advertisement' advertisement.id %}" class="btn btn-info btn-block custom-btn">Editar</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

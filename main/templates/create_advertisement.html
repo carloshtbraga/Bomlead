@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+        
+{% block title %}
+    Create Advertisement
+{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+    <h3 class="text-center mb-2 text-light">Criar Anúncio</h3>
+    <form method="POST" class="w-25 mx-auto text-light">
+        {% csrf_token %}
+        {{ advertisement_form.as_p }}
+        {{ address_form.as_p }}
+        <button type="submit" class="btn btn-info btn-block">Criar</button>
+        <a href="{% url 'index' %}" class="btn btn-warning btn-block">Voltar</a>
+    </form>
+    
+</div>
+{% endblock %}
+
+
+      

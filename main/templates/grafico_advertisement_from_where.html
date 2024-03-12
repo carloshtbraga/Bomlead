@@ -1,0 +1,37 @@
+<!-- grafico_advertisement_from_where.html -->
+
+{% extends 'base.html' %}
+{% block title %} Gráfico de Origem dos Anúncios {% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mt-4 text-light">Gráfico de Origem dos Anúncios</h1>
+    <div id="grafico_advertisement_from_where" class="mt-4 mx-auto" style="max-width: 600px;"></div>
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script>
+        var labels = {{ from_where_labels|safe }};
+        var counts = {{ counts|safe }};
+
+        var data = [{
+            values: counts,
+            labels: labels,
+            type: 'pie'
+        }];
+
+        var layout = {
+            title: 'Distribuição de Anúncios por Origem',
+            titlefont: {
+                color: 'black'
+            },
+            font: {
+                color: 'black'
+            },
+            margin: {
+                t: 50
+            }
+        };
+
+        Plotly.newPlot('grafico_advertisement_from_where', data, layout);
+    </script>
+</div>
+{% endblock %}

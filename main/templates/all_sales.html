@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Todas as Vendas
+{% endblock %}
+
+{% block content %}
+<div class="container text-center bg-secondary py-4">
+    <h3 class="text-light mb-3">Minhas Vendas</h3>
+   
+
+    <div class="table-responsive">
+        <table class="table table-dark table-striped text-light">
+            <thead class="bg-info">
+                <tr>
+                    <th>Pessoa</th>
+                    <th>Agente</th>
+                    <th>Descrição</th>
+                    <th>Data da venda</th>
+                    <th>Quantidade de leads</th>
+                    <th>Preço do lead</th>
+                    <th>Valor total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sale in sales %}
+                <tr>
+                    <td>{{ sale.person }}</td>
+                    <td>{{ sale.user }}</td>
+                    <td>{{ sale.sale_description }}</td>
+                    <td>{{ sale.sale_date }}</td>
+                    <td>{{ sale.quantity }}</td>
+                    <td>{{ sale.lead_value }}</td>
+                    <td>{{ sale.total }}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="5" class="text-right"><strong>Total:</strong></td>
+                    <td>{{ total_lead_value }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <button class="btn btn-warning mb-3" type="button" data-toggle="collapse" data-target="#createSaleCollapse" aria-expanded="false" aria-controls="createSaleCollapse">
+            Cadastrar
+        </button>
+    
+        <div class="collapse" id="createSaleCollapse">
+            <div class="card card-body bg-secondary border-0">
+                <form action="{% url 'create_sale' %}" method="post" class="w-25 mx-auto">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-info btn-block mt-3">Criar Venda</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

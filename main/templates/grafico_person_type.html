@@ -1,0 +1,46 @@
+<!-- grafico_person_type.html -->
+{% extends 'base.html' %}
+{% block title %} Gráfico de Distribuição de Tipos de Pessoa {% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <!-- Div para renderizar o gráfico -->
+      <h1 class="text-center mb-4 text-light">Gráfico de Tipo de Pessoa</h1>
+      <div id="grafico_person_type" style="width:100%; height:400px;"></div>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+    fetch('{% url 'grafico_person_type_data' %}')
+        .then(response => response.json())
+        .then(data => {
+            var trace = {
+                x: data.person_types,
+                y: data.counts,
+                type: 'bar'
+            };
+            var layout = {
+                title: 'Distribuição dos Tipos de Pessoa',
+                xaxis: {
+                    title: 'Tipo de Pessoa'
+                },
+                yaxis: {
+                    title: 'Número de Pessoas'
+                },
+                margin: {
+                    l: 50, // Margem esquerda
+                    r: 50, // Margem direita
+                    b: 100, // Margem inferior
+                    t: 50, // Margem superior
+                    pad: 4 // Espaçamento interno do gráfico
+                }
+            };
+            var config = {
+                responsive: true
+            };
+            Plotly.newPlot('grafico_person_type', [trace], layout, config);
+        });
+</script>
+{% endblock %}
